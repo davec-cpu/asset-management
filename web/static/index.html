@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Go embed + precompress demo</title>
+  <link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+  <main class="container">
+    <h1>Go embed + precompress</h1>
+    <p class="lead">
+      Trang này được serve từ <strong>một binary Go duy nhất</strong>.
+      Toàn bộ HTML/CSS/JS đã được nén sẵn (gzip + brotli) lúc build và nhúng
+      bằng <code>go:embed</code>.
+    </p>
+    <section class="card">
+      <h2>Kiểm tra encoding thực tế</h2>
+      <p>Bảng dưới do <code>app.js</code> điền, đọc từ Resource Timing API:</p>
+      <table id="report">
+        <thead>
+          <tr><th>Resource</th><th>Transfer size</th><th>Decoded size</th><th>Tiết kiệm</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <p class="hint">
+        Mở DevTools → Network để thấy header <code>Content-Encoding: br</code>
+        (hoặc <code>gzip</code>) và <code>Vary: Accept-Encoding</code>.
+      </p>
+    </section>
+  </main>
+  <script src="/static/app.js" defer></script>
+</body>
+</html>
