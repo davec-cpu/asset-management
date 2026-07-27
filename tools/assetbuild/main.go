@@ -15,6 +15,16 @@
 //
 // Thứ tự hash có chủ đích: asset "lá" (ảnh, font, js…) hash trước, rồi CSS
 // (nội dung đổi sau khi rewrite ref → hash phải tính sau), HTML cuối cùng.
+
+// File này sẽ:
+// - Khai báo thư mục đọc file asset và thư mục ghi file sau xử lí
+// - Đọc các file trong thư mục đọc, với mỗi file:
+//   - Tính, chuấn hóa đường dẫn mới, rồi đẩy vào các mảng file html, css, tương ứng
+//   - Với mỗi mảng, duyệt qua từng phần tử, đọc file theo đường dẫn, thực hiện minify,
+//     sửa lại các tham chiếu bên trong nội dung file (nếu cần), hash lại tên file (nếu cần)
+//     rồi ghi file ra thư mục ghi
+//   - Chuyển map manifest sang một chuỗi JSON, rồi ghi vào file manifest.json
+//   - Nén các file lại, so sánh nén với bản gốc, nếu bản nén nhỏ hơn thì ghi ra file
 package main
 
 import (
@@ -81,7 +91,7 @@ func run() error {
 
 	var others, cssFiles, htmlFiles []string
 	//phần này, WalkDir sẽ duyệt qua tất cả các file trong srcRoot, và với mỗi file, sẽ gọi tới callback được cung cấp
-	//Callback có dạng: func(p string, d fs.DirEntry, err error), trong đó:
+	//Callback có dạng: func(path string, d fs.DirEntry, err error), trong đó:
 	// - path: đường dẫn đầy đủ của các file trong thư mục đang được duyệt
 	// - d: đối tượng đang xét
 	// - err: lỗi xảy ra, nếu có. Nếu không có lỗi thì giá trị là nil

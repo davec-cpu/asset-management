@@ -4,6 +4,9 @@
 // package chứa nó — không dùng được ".." — nên file này đặt ngay tại web/.
 package web
 
+// Một file Go A import "embed" có thể sử dụng directive `//go:embed` để
+// khởi tạo một biến kiểu `string`, `[]byte` hoặc `embed.FS` bằng nội dung của các
+// file khớp với pattern trong `go:embed`
 import "embed"
 
 // Static nhúng web/dist — OUTPUT của tools/assetbuild (đã minify, đã đổi tên

@@ -53,6 +53,8 @@ var (
 	manifest map[string]string // tên gốc → tên đã hash, từ dist/manifest.json
 )
 
+// Khi chạy/build app, tất cả các package được import, hoặc nằm trong đồ thị import tới main.go sẽ
+// được khởi tạo. Trong quá trình khởi tạo, nếu package có hàm init(), hàm này sẽ được gọi
 func init() {
 	files, manifest = mustLoad()
 }
@@ -151,9 +153,11 @@ func Handler() http.Handler {
 	})
 }
 
+// map file đã được khởi tạo bằng mustLoad() khi chạy go build/run, gồm các thông tin header, cache control, gzip, brotlin
 // Serve trả về file `name` (đường dẫn tương đối trong web/dist),
 // negotiation theo Accept-Encoding và hỗ trợ If-None-Match → 304.
 func Serve(w http.ResponseWriter, r *http.Request, name string) {
+	//set phương thức
 	if r.Method != http.MethodGet && r.Method != http.MethodHead {
 		w.Header().Set("Allow", "GET, HEAD")
 		http.Error(w, "method not allowed", http.StatusMethodNotAllowed)

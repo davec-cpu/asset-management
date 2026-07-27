@@ -25,9 +25,11 @@ func main() {
 	if addr == "" {
 		addr = ":8088"
 	}
-
+	//Mux là một bộ định tuyến, tương tự như chi framework
 	mux := http.NewServeMux()
 	// Trang chủ serve thẳng index.html đã nhúng (vẫn được negotiation nén).
+	//negotiation (đàm phán): Là cơ chế mà client và server thỏa thuận với nhau để quyết định xem
+	// dùng phiên bản nào của một tài nguyên
 	mux.HandleFunc("GET /{$}", func(w http.ResponseWriter, r *http.Request) {
 		assets.Serve(w, r, "index.html")
 	})
